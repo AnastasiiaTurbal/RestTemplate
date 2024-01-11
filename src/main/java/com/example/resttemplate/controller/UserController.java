@@ -16,14 +16,14 @@ public class UserController {
     private List<String> cookies;
     private final String url = "http://94.198.50.185:7081/api/users";
     HttpHeaders headers = new HttpHeaders();
-    User user = new User(3L, "James", "Brown", 3);
+    User user = new User();
 
     public UserController(RestTemplate restTemplate) {
         this.restTemplate = restTemplate;
     }
 
     @GetMapping()
-    public void getUsers() {
+    public String getUsers() {
         String answer = "";
         ResponseEntity<User[]> response = restTemplate.getForEntity(url, User[].class);
         cookies = response.getHeaders().get("Set-Cookie");
@@ -33,10 +33,15 @@ public class UserController {
         answer += editUser();
         answer += deleteUser(3);
         System.out.println(answer);
+        return answer;
     }
 
     @PostMapping()
     public String addNewUser() {
+        user.setId(3L);
+        user.setName("James");
+        user.setLastName("Brown");
+        user.setAge(3);
         HttpEntity<?> entity = new HttpEntity<>(user, headers);
         ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.POST, entity, String.class);
         return response.getBody();
