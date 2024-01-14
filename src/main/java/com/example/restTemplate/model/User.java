@@ -1,4 +1,4 @@
-package com.example.resttemplate.model;
+package com.example.restTemplate.model;
 
 public class User {
         private Long id;
